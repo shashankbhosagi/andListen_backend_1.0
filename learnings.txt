@@ -1,0 +1,2 @@
+Learning 1: //!Below commented code is depricated mongodb no longer accepts .findOne functions callbacks, so in above code what I did was made the function with jwt_payload and done as input a async and then used await before .findOne... the other approach was use User.find().then() but it took forever to get the request complete.
+Link - https://stackoverflow.com/questions/75649330/mongooseerror-model-findone-no-longer-accepts-a-callback-at-function

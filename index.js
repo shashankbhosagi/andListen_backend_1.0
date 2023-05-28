@@ -5,15 +5,21 @@ const JwtStrategy = require("passport-jwt").Strategy,
 const passport = require("passport");
 require("dotenv").config();
 const User = require("./models/User");
+const authRoutes = require("./routes/auth");
+const songRoutes = require("./routes/songs");
 const app = express();
 const port = 8000;
 
-// //?==============creating a get api and prinitng hello world as response
+app.use(express.json()); // meri koi bhi body vagera aari hai toh usse json me convert kardo
+
+// //?==============APIS
 
 // app.get("/", (req, res) => {
 //   //req - request, res- response
 //   res.send("Hello Voldermort here !!");
 // });
+app.use("/auth", authRoutes);
+app.use("/song", songRoutes);
 
 //?=============================Connecting NodeJS to MongoDB========================================
 // console.log(process.env);
@@ -41,20 +47,30 @@ let opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.SECRET_KEY;
 passport.use(
-  new JwtStrategy(opts, function (jwt_payload, done) {
-    User.findOne({ id: jwt_payload.sub }, function (err, user) {
-      if (err) {
-        return done(err, false);
-      }
-      if (user) {
-        return done(null, user);
-      } else {
-        return done(null, false);
-        // or you could create a new account
-      }
-    });
+  new JwtStrategy(opts, async function (jwt_payload, done) {
+    const user = await User.findOne({ id: jwt_payload.sub });
+    if (!user) {
+      return done(err, false);
+    } else {
+      return done(null, user);
+    }
+    return done(null, false);
   })
 );
+//!Want to know about below code goto:./learnings.txt learning 1
+// User.findOne({ id: jwt_payload.sub }, function (err, user) {
+//   if (err) {
+//     return done(err, false);
+//   }
+//   if (user) {
+//     return done(null, user);
+//   } else {
+//     return done(null, false);
+//     // or you could create a new account
+//   }
+//   });
+// })
+// );
 
 //?==================Telling express that we will run a server on port 8000==========================
 
