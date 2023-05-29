@@ -7,6 +7,7 @@ require("dotenv").config();
 const User = require("./models/User");
 const authRoutes = require("./routes/auth");
 const songRoutes = require("./routes/songs");
+const playlistRoutes = require("./routes/playlist");
 const app = express();
 const port = 8000;
 
@@ -20,6 +21,7 @@ app.use(express.json()); // meri koi bhi body vagera aari hai toh usse json me c
 // });
 app.use("/auth", authRoutes);
 app.use("/song", songRoutes);
+app.use("/playlist", playlistRoutes);
 
 //?=============================Connecting NodeJS to MongoDB========================================
 // console.log(process.env);

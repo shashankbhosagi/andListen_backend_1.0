@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 const Song = require("../models/Song");
+const User = require("../models/User");
 
 router.post(
   "/create",
@@ -22,12 +23,42 @@ router.post(
 //Get all the songs that you have uploaded
 router.get(
   "/get/mysongs",
-  passport.authenticate("user", { sesssion: false }),
+  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     const currentUser = req.user;
     //we need to get all the songs with artist id as currentUser._id
-    const songs = await Song.find({ artist: currentUser._id });
+    const songs = await Song.find({ artist: req.user._id });
 
+    return res.status(200).json({ data: songs });
+  }
+);
+
+//get all songs any artist has publishes, will pass artist id in a get request
+router.get(
+  "/get/artist",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const { artistId } = req.body;
+    //we check if artist exists
+    const user = await User.find({ _id: artistId });
+    if (!user) {
+      res.status(301).json({ err: "Artist doesn't exist" });
+    }
+
+    const songs = await Song.find({ artist: artistId });
+    return res.status(200).json({ data: songs });
+  }
+);
+
+//Get a song by it's song name
+router.get(
+  "/get/songname",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const { songName } = req.body;
+    //*This does exact song name matching so there is a future scope for this API
+    //TODO: Create a pattern matching to search song ie. Pink Venom && piNk vNome
+    const songs = await Song.find({ name: songName });
     return res.status(200).json({ data: songs });
   }
 );
