@@ -1,0 +1,10 @@
+/auth/register - POST [x]
+/auth/login - POST []
+/song/create - POST [x]
+/song/get/mysongs - Get [x]
+/song/get/artist/:artistId - get [x]
+/song/get/songname/:songName - get [x]
+/playlist/create - post [x]
+/playlist/get/playlist/:playlistId - get [x]
+/playlist/get/artist/:artistId - get [x]
+/playlist/add/song - post 

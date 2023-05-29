@@ -35,12 +35,12 @@ router.get(
 
 //get all songs any artist has publishes, will pass artist id in a get request
 router.get(
-  "/get/artist",
+  "/get/artist/:artistId",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    const { artistId } = req.body;
+    const { artistId } = req.params;
     //we check if artist exists
-    const user = await User.find({ _id: artistId });
+    const user = await User.find({ _id: artistId }); //!Kuch toh gadbad hai daya !! (in testing if the id is of size less than or greater than 24 server crashes :(  )
     if (!user) {
       res.status(301).json({ err: "Artist doesn't exist" });
     }
@@ -52,10 +52,10 @@ router.get(
 
 //Get a song by it's song name
 router.get(
-  "/get/songname",
+  "/get/songname/:songName",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    const { songName } = req.body;
+    const { songName } = req.params;
     //*This does exact song name matching so there is a future scope for this API
     //TODO: Create a pattern matching to search song ie. Pink Venom && piNk vNome
     const songs = await Song.find({ name: songName });
