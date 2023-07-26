@@ -40,9 +40,10 @@ router.get(
   async (req, res) => {
     const { artistId } = req.params;
     //we check if artist exists
-    const user = await User.find({ _id: artistId }); //!Kuch toh gadbad hai daya !! (in testing if the id is of size less than or greater than 24 server crashes :(  )
+    const user = await User.findOne({ _id: artistId }); //!Kuch toh gadbad hai daya !! (in testing if the id is of size less than or greater than 24 server crashes :(  ) (resolved use findOne())
+    console.log(user);
     if (!user) {
-      res.status(301).json({ err: "Artist doesn't exist" });
+      return res.status(301).json({ err: "Artist doesn't exist" });
     }
 
     const songs = await Song.find({ artist: artistId });

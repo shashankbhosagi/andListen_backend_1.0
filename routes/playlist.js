@@ -77,8 +77,9 @@ router.post(
     }
 
     //Step1. Check if the current user owns the playlist or is a collaborator
+    //!WArning Songs add nahi hore hai !!!!!!!!!!!!! postman hang ho jara hai :slighttly_smiling_face:
     if (
-      playlist._id != currentUser._id ||
+      !playlist.owner.equals(currentUser._id) &&
       !playlist.collaborators.includes(currentUser._id)
     ) {
       return res.status(400).json({ err: "Not allowed" });
