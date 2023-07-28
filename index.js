@@ -8,9 +8,11 @@ const User = require("./models/User");
 const authRoutes = require("./routes/auth");
 const songRoutes = require("./routes/songs");
 const playlistRoutes = require("./routes/playlist");
+const cors = require("cors");
 const app = express();
 const port = 8000;
 
+app.use(cors());
 app.use(express.json()); // meri koi bhi body vagera aari hai toh usse json me convert kardo
 
 // //?==============APIS
