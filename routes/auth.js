@@ -21,7 +21,7 @@ router.post("/register", async (req, res) => {
 
   //Step 3: Create the new user in the Database
   //step 3.1 : Hashing the password
-  const hashedPassword = bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
   const newUserData = {
     email,
     password: hashedPassword,
@@ -36,7 +36,7 @@ router.post("/register", async (req, res) => {
 
   //Step 5: return result to user
   const usertoReturn = { ...newUser.toJSON(), token };
-  //   delete usertoReturn.password;
+  delete usertoReturn.password;
 
   return res.status(200).json(usertoReturn);
 });
