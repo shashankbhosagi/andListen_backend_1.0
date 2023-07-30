@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 //How to create a model
 //Step 1: Require Mongoose
 //Step 2:Create a mongoose schema (strucutre of a user)
-//Step 3: createa the model
+//Step 3: createa the mode
 
 const Song = new mongoose.Schema({
   name: {

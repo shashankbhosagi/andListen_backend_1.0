@@ -27,7 +27,7 @@ const User = new mongoose.Schema({
     required: true,
   },
   likedSongs: {
-    //Will change in future, note it Shashank (array)
+    //Will change in future, note it Shashank {array}
     type: String,
     default: "",
   },
