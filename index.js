@@ -10,7 +10,7 @@ const songRoutes = require("./routes/songs");
 const playlistRoutes = require("./routes/playlist");
 const cors = require("cors");
 const app = express();
-const port = 8000;
+const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json()); // meri koi bhi body vagera aari hai toh usse json me convert kardo
@@ -38,6 +38,9 @@ mongoose
     }
   )
   .then((x) => {
+    app.listen(port, () => {
+      console.log("App is up and running on port -> " + port);
+    });
     console.log("COnnected to mongoDB");
   })
   .catch((err) => {
@@ -52,13 +55,11 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.SECRET_KEY;
 passport.use(
   new JwtStrategy(opts, async function (jwt_payload, done) {
-    const user = await User.findOne({ id: jwt_payload.sub });
+    const user = await User.findOne({ _id: jwt_payload.identifier });
     if (!user) {
       return done(err, false);
-    } else {
-      return done(null, user);
     }
-    return done(null, false);
+    return done(null, user);
   })
 );
 //!Want to know about below code goto:./learnings.txt learning 1
@@ -77,7 +78,3 @@ passport.use(
 // );
 
 //?==================Telling express that we will run a server on port 8000==========================
-
-app.listen(port, () => {
-  console.log("App is up and running on port -> " + port);
-});

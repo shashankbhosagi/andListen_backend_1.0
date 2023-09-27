@@ -59,7 +59,7 @@ router.get(
     const { songName } = req.params;
     //*This does exact song name matching so there is a future scope for this API
     //TODO: Create a pattern matching to search song ie. Pink Venom && piNk vNome
-    const songs = await Song.find({ name: songName });
+    const songs = await Song.find({ name: songName }).populate("artist");
     return res.status(200).json({ data: songs });
   }
 );
