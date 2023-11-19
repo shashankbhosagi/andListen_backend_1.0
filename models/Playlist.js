@@ -16,8 +16,8 @@ const Playlist = new mongoose.Schema({
 
   owner: {
     type: mongoose.Types.ObjectId,
-    ref: "playlist",
-    required: true,
+    ref: "User",
+    // required: true,
   },
   //1. Playlist me songs konse hai
   //2. PLaylist me collaborators kon kon haiS
@@ -25,13 +25,13 @@ const Playlist = new mongoose.Schema({
   songs: [
     {
       type: mongoose.Types.ObjectId,
-      ref: "song",
+      ref: "Song",
     },
   ],
   collaborators: [
     {
       type: mongoose.Types.ObjectId,
-      ref: "user",
+      ref: "User",
     },
   ],
 });

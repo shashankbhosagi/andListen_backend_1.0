@@ -46,6 +46,20 @@ router.get(
   }
 );
 
+//Get all playlist of the me
+router.get(
+  "/get/me",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const artistId = req.user._id;
+
+    const playlists = await Playlist.find({ owner: artistId }).populate(
+      "owner"
+    );
+
+    return res.status(200).json({ data: playlists });
+  }
+);
 //Get all playlist of the artist
 router.get(
   "/get/artist/:artistId",
