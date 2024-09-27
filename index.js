@@ -16,11 +16,11 @@ app.use(cors());
 app.use(express.json()); // meri koi bhi body vagera aari hai toh usse json me convert kardo
 
 // //?==============APIS
-
 // app.get("/", (req, res) => {
 //   //req - request, res- response
 //   res.send("Hello Voldermort here !!");
 // });
+
 app.use("/auth", authRoutes);
 app.use("/song", songRoutes);
 app.use("/playlist", playlistRoutes);
@@ -62,6 +62,7 @@ passport.use(
     return done(null, user);
   })
 );
+
 //!Want to know about below code goto:./learnings.txt learning 1
 // User.findOne({ id: jwt_payload.sub }, function (err, user) {
 //   if (err) {
